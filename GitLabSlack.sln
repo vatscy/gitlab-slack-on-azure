@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitLabSlack", "GitLabSlack\GitLabSlack.csproj", "{892C2781-FE47-4D2D-9806-1EE85A607006}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitLabSlack.Tests", "GitLabSlack.Tests\GitLabSlack.Tests.csproj", "{88D526DE-C698-4C76-A9C1-95071327DCBC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishScripts", "PublishScripts", "{1DF1FAF6-7ABD-4426-9694-03254EBE89BB}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\AzureWebsitePublishModule.psm1 = PublishScripts\AzureWebsitePublishModule.psm1
+		PublishScripts\Publish-WebApplicationWebsite.ps1 = PublishScripts\Publish-WebApplicationWebsite.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configurations", "Configurations", "{2B6828BC-F9CF-4230-9B13-6623052BA99C}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\Configurations\GitLabSlack-WAWS-dev.json = PublishScripts\Configurations\GitLabSlack-WAWS-dev.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{892C2781-FE47-4D2D-9806-1EE85A607006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{892C2781-FE47-4D2D-9806-1EE85A607006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{892C2781-FE47-4D2D-9806-1EE85A607006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{892C2781-FE47-4D2D-9806-1EE85A607006}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88D526DE-C698-4C76-A9C1-95071327DCBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88D526DE-C698-4C76-A9C1-95071327DCBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88D526DE-C698-4C76-A9C1-95071327DCBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88D526DE-C698-4C76-A9C1-95071327DCBC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2B6828BC-F9CF-4230-9B13-6623052BA99C} = {1DF1FAF6-7ABD-4426-9694-03254EBE89BB}
+	EndGlobalSection
+EndGlobal
