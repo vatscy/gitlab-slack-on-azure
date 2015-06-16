@@ -25,15 +25,18 @@ namespace GitLabSlack.Controllers.Api
         private static readonly string _token = "xxxx-xxxxxxxxxx-xxxxxxxxxx-xxxxxxxxxx-xxxxxx"; // TODO
 
         /// <summary>
-        /// GitLab Hookの受け口です。
+        /// Merge Requestが作成された場合にSlackに通知します。
         /// </summary>
         /// <param name="channel">チャンネル名</param>
         /// <param name="body">リクエストボディ</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task Post(string channel, [FromBody] JObject body)
+        public async Task MergeRequest(string channel, [FromBody] JObject body)
         {
-            await Proxy(body, channel, x => !string.IsNullOrEmpty(channel));
+            await Proxy(body, channel,
+                x => !string.IsNullOrEmpty(channel)
+                && x["object_kind"].Value<string>() == "merge_request"
+                && x["object_attributes"]["state"].Value<string>() == "opened");
         }
 
         /// <summary>
