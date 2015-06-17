@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -55,24 +56,34 @@ namespace GitLabSlack.Controllers.Api
                     var objectAttr = body["object_attributes"];
 
                     var updateTime = DateTime.ParseExact(objectAttr["updated_at"].Value<string>(), "yyyy-MM-dd HH:mm:ss' UTC'", null).AddHours(9).ToString("yyyy/MM/dd'T'HH:mm:ss");
+                    var pretext = "Merge Request was created at " + updateTime;
+
                     var title = objectAttr["title"].Value<string>();
                     var description = objectAttr["description"].Value<string>();
+
                     var nameSpace = objectAttr["source"]["namespace"].Value<string>().ToLower().Replace(' ', '-');
                     var name = objectAttr["source"]["name"].Value<string>().ToLower();
                     var iid = objectAttr["iid"].Value<string>();
                     var mergeRequestUrl = _gitlabDomain + nameSpace + "/" + name + "/merge_requests/" + iid;
 
-                    var message = new StringBuilder()
-                        .Append("Merge Request was created at ").AppendLine(updateTime)
-                        .AppendLine(title)
-                        .AppendLine(description)
-                        .AppendLine(mergeRequestUrl)
-                        .ToString();
+                    var attachments = JsonConvert.SerializeObject(new[]
+                    {
+                        new
+                        {
+                            fallback = pretext,
+                            pretext = pretext,
+                            title = title,
+                            title_link = mergeRequestUrl,
+                            text = description,
+                            color = "#554488"
+                        }
+                    });
 
                     var url = "https://slack.com/api/chat.postMessage?link_names=1&username=GitLab"
                         + "&token=" + _token
                         + "&channel=%23" + channel
-                        + "&text=" + HttpUtility.UrlEncode(message, Encoding.UTF8)
+                        + "&text=" // empty
+                        + "&attachments=" + HttpUtility.UrlEncode(attachments, Encoding.UTF8)
                         + "&icon_url=" + HttpUtility.UrlEncode("http://gitlabslack.azurewebsites.net/content/img/gitlab.jpg", Encoding.UTF8);
 
                     await PostToSlackAsync(url);
