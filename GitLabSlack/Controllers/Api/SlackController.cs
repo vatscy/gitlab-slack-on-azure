@@ -55,8 +55,12 @@ namespace GitLabSlack.Controllers.Api
                 {
                     var objectAttr = body["object_attributes"];
 
-                    var updateTime = DateTime.ParseExact(objectAttr["updated_at"].Value<string>(), "yyyy-MM-dd HH:mm:ss' UTC'", null).AddHours(9).ToString("yyyy/MM/dd'T'HH:mm:ss");
-                    var pretext = "Merge Request was created at " + updateTime;
+                    var createdAt = objectAttr["created_at"].Value<string>();
+                    var updatedAt = objectAttr["updated_at"].Value<string>();
+                    if (createdAt != updatedAt)
+                    {
+                        return;
+                    }
 
                     var title = objectAttr["title"].Value<string>();
                     var description = objectAttr["description"].Value<string>();
@@ -65,6 +69,10 @@ namespace GitLabSlack.Controllers.Api
                     var name = objectAttr["source"]["name"].Value<string>().ToLower();
                     var iid = objectAttr["iid"].Value<string>();
                     var mergeRequestUrl = _gitlabDomain + nameSpace + "/" + name + "/merge_requests/" + iid;
+
+                    var user = body["user"]["name"].Value<string>();
+                    var createTime = DateTime.ParseExact(createdAt, "yyyy-MM-dd HH:mm:ss' UTC'", null).AddHours(9).ToString("yyyy/MM/dd HH:mm:ss");
+                    var pretext = "Merge Request #" + iid + " created by " + user + " at " + createTime;
 
                     var attachments = JsonConvert.SerializeObject(new[]
                     {
